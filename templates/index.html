@@ -1,24 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AI Resume Analyzer</title>
+  <title>AI  RESUME  ANALYZER</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="container">
 
-  <h1>AI Resume Analyzer</h1>
+  <h1 class="glow-title">AI  RESUME  ANALYZER</h1>
 
   <form action="/analyze" method="POST" enctype="multipart/form-data">
 
-    <label>Upload Resume:</label>
-    <input type="file" name="resume" required>
+    
 
-    <label>Job Role:</label>
-    <input type="text" id="role" placeholder="Type role...">
+    <label>UPLOAD RESUME</label>
 
-    <label>Job Description:</label>
+    <div class="drop-area" id="dropArea">
+     <p>📂 Drag & Drop Resume Here</p>
+     <p>or</p>
+
+     <button type="button" 
+       onclick="document.getElementById('fileInput').click()" 
+       class="upload-btn">
+       Upload Resume
+     </button>
+
+     <input type="file" name="resume" id="fileInput" hidden>
+
+     <p id="fileName">No file chosen</p>
+   </div>
+    <label>JOB ROLE</label>
+    <select name="role" id="role" required
+    class="custom-select" required>
+      <option value="">Select Job Role</option>
+      <option value="data_scientist">Data Scientist</option>
+      <option value="ml_engineer">ML Engineer</option>
+      <option value="frontend_dev">Frontend Developer</option>
+      <option value="backend_dev">Backend Developer</option>
+      <option value="fullstack_dev">Full Stack Developer</option>
+    </select>
+  <title>AI Resume Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <label>JOB DESCRIPTION</label>
     <textarea name="job_desc" id="job_desc" rows="6" required></textarea>
 
     <button type="submit">Analyze</button>
@@ -28,6 +53,39 @@
 </div>
 
 <script src="/static/script.js"></script>
+
+<script>
+  const dropArea = document.getElementById("dropArea");
+  const fileInput = document.getElementById("fileInput");
+  const fileName = document.getElementById("fileName");
+
+  // highlight on drag
+  dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.classList.add("highlight");
+  });
+
+  dropArea.addEventListener("dragleave", () => {
+    dropArea.classList.remove("highlight");
+  });
+
+  dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropArea.classList.remove("highlight");
+
+    const file = e.dataTransfer.files[0];
+    fileInput.files = e.dataTransfer.files;
+
+    fileName.textContent = " " + file.name;
+  });
+
+  // normal select
+  fileInput.addEventListener("change", function () {
+    if (this.files.length > 0) {
+      fileName.textContent = " " + this.files[0].name;
+    }
+  });
+</script>
 
 </body>
 </html>
